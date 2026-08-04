@@ -13,16 +13,16 @@
 
 <body>
     <aside id="default-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+        class="fixed top-0 left-0 z-40 w-55 h-full transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-[#0E2773] border-e border-default">
             <ul class="space-y-2 font-medium">
 
                 <li class="flex items-center px-2 py-1.5 text-white rounded-base hover:bg-neutral-tertiary">
-                    BIENVENIDO 
+                    BIENVENIDO
                 </li>
 
-                <x-sidebar href="/login">
+                <x-sidebar href="" data-target="inicio">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@
 
 
 
-                <x-sidebar href="/login">
+                <x-sidebar href="" data-target="alumnos">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white dark:text" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
                     Alumnos
                 </x-sidebar>
 
-                 <x-sidebar href="/login">
+                <x-sidebar href="" data-target="profesor">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -57,7 +57,7 @@
                     Profesores
                 </x-sidebar>
 
-                 <x-sidebar href="">
+                <x-sidebar href="" data-target="asesoria">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -68,9 +68,9 @@
                     Asesorías
                 </x-sidebar>
 
-                 <x-sidebar href="">
+                <x-sidebar href="" data-target="tutoria">
                     <x-slot:icon>
-                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
                                 d="M4.07141 14v6h5.99999v-6H4.07141Zm4.5-4h6.99999l-3.5-6-3.49999 6Zm7.99999 10c1.933 0 3.5-1.567 3.5-3.5s-1.567-3.5-3.5-3.5-3.5 1.567-3.5 3.5 1.567 3.5 3.5 3.5Z" />
@@ -79,7 +79,7 @@
                     Tutorías
                 </x-sidebar>
 
-                 <x-sidebar href="">
+                <x-sidebar href="/login" data-target="logout">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -95,8 +95,12 @@
     </aside>
 
     <div class="p-4 sm:ml-64">
+        <x-sidebar_alumnos data-panel="alumnos"    class="hidden"/>
+        <x-sidebar_profesor data-panel="profesor"    class="hidden" />
+        <x-sidebar_asesoria data-panel="asesoria"    class="hidden" />
+        <x-sidebar_tutoria data-panel="tutoria"    class="hidden" />
+           
         <div class="p-4 border-1 border-default border-dashed rounded-base">
-
             <!-- Aquí puedes empezar a borrar las cajas grises y meter tu información -->
             <div class="grid grid-cols-1 gap-4 mb-4">
                 <div class="flex items-center justify-center h-24 rounded-base bg-neutral-secondary-soft">

@@ -1,4 +1,4 @@
-<!--- Esta es el estilo de las palabras del primer dashboard -->
+<!--- Este es el estilo de las palabras del segundo dashboard --> 
 @props(['href' => '#'])
 <li {{ $attributes }}>
     <a href="{{ $href }}"
@@ -7,4 +7,3 @@
         <span class="ms-3">{{ $slot }}</span>
     </a>
 </li>
-
