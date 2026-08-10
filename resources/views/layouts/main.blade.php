@@ -35,7 +35,7 @@
 
 
 
-                <x-sidebar href="" data-target="alumnos">
+                <x-sidebar href="#" data-target="alumnos">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white dark:text" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
                     Alumnos
                 </x-sidebar>
 
-                <x-sidebar href="" data-target="profesor">
+                <x-sidebar href="#" data-target="profesor">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -57,7 +57,7 @@
                     Profesores
                 </x-sidebar>
 
-                <x-sidebar href="" data-target="asesoria">
+                <x-sidebar href="#" data-target="asesoria">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -68,7 +68,7 @@
                     Asesorías
                 </x-sidebar>
 
-                <x-sidebar href="" data-target="tutoria">
+                <x-sidebar href="#" data-target="tutoria">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@
                     Tutorías
                 </x-sidebar>
 
-                <x-sidebar href="/login" data-target="logout">
+                <x-sidebar href="#" data-target="logout">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -102,9 +102,19 @@
            
         <div class="p-4 border-1 border-default border-dashed rounded-base">
             <!-- Aquí puedes empezar a borrar las cajas grises y meter tu información -->
-            <div class="grid grid-cols-1 gap-4 mb-4">
+            <div class="grid grid-cols-1 gap-4 mb-4" justify-center items-center>
                 <div class="flex items-center justify-center h-24 rounded-base bg-neutral-secondary-soft">
                     <h1 class="text-heading font-bold text-xl">@yield('content')</h1>
+                </div>
+
+                <div class="flex items-center justify-center bg-neutral-secondary-soft">
+                <x-addAlumnos data-panel="alumnos"/> 
+                </div>
+                
+
+                <br>
+                <div class="flex items-center justify-center rounded-base bg-neutral-secondary-soft">
+                <x-addProfesor data-panel="profesor"/>
                 </div>
             </div>
 
