@@ -19,7 +19,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return view('addAlumnos');
+        return view('alumnos.create');
     }
 
     /**
@@ -27,7 +27,7 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

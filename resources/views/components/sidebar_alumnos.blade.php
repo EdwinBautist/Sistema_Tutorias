@@ -1,13 +1,3 @@
-<?php
-
-use Livewire\Component;
-
-new class extends Component
-{
-    //
-};
-?>
-
 <aside id="sidebar_alumno" {{ $attributes->merge(['class' => 'fixed top-0 left-55 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0']) }}
             aria-label="Sidebar">
             <div class="h-full px-3 py-8 overflow-y-auto bg-[#F54927] border-e border-default">
@@ -16,7 +6,7 @@ new class extends Component
                         ALUMNOS
                     </li>
 
-                    <x-suboption href="/">
+                    <x-suboption href="/alumnos/create">
                         <x-slot:icon>
                             <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -28,7 +18,7 @@ new class extends Component
                         Buscar Alumno
                     </x-suboption>
 
-                    <x-suboption href="/">
+                    <x-suboption href="/alumnos/create">
                         <x-slot:icon>
                             <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">

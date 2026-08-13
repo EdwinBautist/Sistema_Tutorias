@@ -22,7 +22,7 @@
                     BIENVENIDO
                 </li>
 
-                <x-sidebar href="" data-target="inicio">
+                <x-sidebar href="/home" data-target="inicio">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@
                     Tutorías
                 </x-sidebar>
 
-                <x-sidebar href="#" data-target="logout">
+                <x-sidebar href="/logout" data-target="logout">
                     <x-slot:icon>
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -104,17 +104,10 @@
             <!-- Aquí puedes empezar a borrar las cajas grises y meter tu información -->
             <div class="grid grid-cols-1 gap-4 mb-4" justify-center items-center>
                 <div class="flex items-center justify-center h-24 rounded-base bg-neutral-secondary-soft">
-                    <h1 class="text-heading font-bold text-xl">@yield('content')</h1>
+                    <h1 class="text-heading font-bold text-xl"></h1>
                 </div>
-
                 <div class="flex items-center justify-center bg-neutral-secondary-soft">
-                <x-addAlumnos data-panel="alumnos"/> 
-                </div>
-                
-
-                <br>
-                <div class="flex items-center justify-center rounded-base bg-neutral-secondary-soft">
-                <x-addProfesor data-panel="profesor"/>
+                                        @yield('content')
                 </div>
             </div>
 
