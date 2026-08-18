@@ -15,5 +15,4 @@ class Profesor extends Model
 
     //Tal vez algún método para normalizar los nombres (quitar acentos)
 
-    
 }

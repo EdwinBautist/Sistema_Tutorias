@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Alumno as Alumno;
 use Illuminate\Http\Request;
 
 class AlumnoController extends Controller
@@ -27,7 +27,17 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {
+        $alumno = new Alumno;
+        $alumno->matricula = $request->input('matricula');
+        $alumno->correo = $request->input('correo');
+        $alumno->nombre = $request->input('nombre');
+        $alumno->apell_paterno = $request->input('apell_paterno');
+        $alumno->apell_materno = $request->input('apell_materno');
+        $alumno->semestre = $request->input('semestre');
+        $alumno->carrera = $request->input('carrera');
+        $alumno->estatus = $request->input('estatus');
         
+        $alumno->save();
     }
 
     /**
