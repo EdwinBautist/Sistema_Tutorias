@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Alumno as Alumno;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AlumnoController extends Controller
 {
@@ -27,17 +28,31 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {
+        $alumnovalidate = $request->validate([
+            'matricula' => ['required', 'size:8', 'unique:Alumno~'],
+            'correo' => ['required', 'regex:/^[a-z0-9]+@umich\.mx$/'],
+            'nombre' => ['required', 'string'],
+            'apell_paterno' => ['required', 'string'],
+            'apell_materno' => ['required', 'string'],
+            'semestre' => ['required','integer'],
+            'carrera' => ['required'],
+            'estatus' => ['required']
+        ]);
+
         $alumno = new Alumno;
-        $alumno->matricula = $request->input('matricula');
-        $alumno->correo = $request->input('correo');
-        $alumno->nombre = $request->input('nombre');
-        $alumno->apell_paterno = $request->input('apell_paterno');
-        $alumno->apell_materno = $request->input('apell_materno');
-        $alumno->semestre = $request->input('semestre');
-        $alumno->carrera = $request->input('carrera');
-        $alumno->estatus = $request->input('estatus');
+        $alumno->matricula = $alumnovalidate['matricula'];
+        $alumno->correo = $alumnovalidate['correo'];
+        $alumno->nombre = Str::transliterate($alumnovalidate['nombre']);
+        $alumno->apell_paterno = Str::transliterate($alumnovalidate['apell_paterno']);
+        $alumno->apell_materno = Str::transliterate($alumnovalidate['apell_materno']);
+        $alumno->semestre = $alumnovalidate['semestre'];
+        $alumno->carrera = $alumnovalidate['carrera'];
+        $alumno->estatus = $alumnovalidate['estatus'];
+        $alumno->token_qr = $alumnovalidate['matricula'];        
         
         $alumno->save();
+
+        return view('alumnos.create');
     }
 
     /**
@@ -71,4 +86,6 @@ class AlumnoController extends Controller
     {
         //
     }
+
+    //public function addcsv(string $id)
 }
