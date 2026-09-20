@@ -5,16 +5,16 @@
 @section('content')
 <div align="center" class="w-200">
     <h2>INSERTAR PROFESOR</h2>
+    <br>
 
     <form action={{ route('profesores.store') }} class="x mx-auto" class="w-full max-w-lg" method="POST">
 
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="num_empleado" id="num_empleado" value="{{old('num_empleado')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
             <label for="n_empleado"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Número
-                de Empleado</label>
+                class="block mb-2.5 text-sm font-medium text-heading">
+                Número de Empleado</label>
+            <input type="text" name="num_empleado" id="num_empleado" value="{{old('num_empleado')}}"
+                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="No. de empleado"/>
                 
                 @error('num_empleado')
                 <p>{{$message}}</p>
@@ -22,21 +22,21 @@
         </div>
 
         <div class="relative z-0 w-full mb-5 group">
-            <input type="password" name="contrasena" id="contrasena" value="{{old('contrasena')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
             <label for="floating_password"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Contrasena</label>
+                class="block mb-2.5 text-sm font-medium text-heading">
+                CURP</label>
+            <input type="password" name="curp" id="curp" value="{{old('curp')}}"
+                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="CURP"/>
+            
         </div>
 
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="correo" id="correo" value="{{old('correo')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
             <label for="correo"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Correo
-                Institucional</label>
-
+                class="block mb-2.5 text-sm font-medium text-heading">
+                Correo Institucional</label>
+            <input type="text" name="correo" id="correo" value="{{old('correo')}}"
+                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="matricula@umich.mx"/>
+            
                 @error('correo')
                 <p>{{$message}}</p>
                 @enderror
@@ -44,33 +44,36 @@
 
         <div class="grid md:grid-cols-3 md:gap-6">
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="floating_apell_nombre"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Nombre</label>
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Nombre</label>
+                <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Nombre"/>
+                
                 @error('nombre')
                     <p>{{$message}}</p>
                 @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="apell_paterno" id="apell_paterno" value="{{old('apell_paterno')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="floating_apell_paterno"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Apellido
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Apellido
                     Paterno</label>
+                <input type="text" name="apell_paterno" id="apell_paterno" value="{{old('apell_paterno')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido paterno"/>
+                
                 @error('apell_paterno')
                     <p>{{$message}}</p>
                 @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="apell_materno" id="apell_materno" value="{{old('apell_paterno')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="floating_last_name"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Apellido
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Apellido
                     Materno</label>
+                <input type="text" name="apell_materno" id="apell_materno" value="{{old('apell_paterno')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido materno   "/>
+                
                 @error('apell_materno')
                     <p>{{$message}}</p>
                 @enderror
@@ -100,11 +103,11 @@
     <div class="border-dashed rounded-base border-1 rounded-base">
     <br>
     <h2>SELECCIONE UN ARCHIVO .CSV</h2>
-    <form class="max-w-lg mx-auto">
+    <form class="max-w-lg mx-auto" method="POST" action={{route('profesores.import')}} >
         <div class="relative z-0 w-full mb-5 group">
         <input
             class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
-            id="file_input" type="file">
+            id="file_input" type="file" accept=".csv" name="archivo">
         </div>
         <button type="submit"
             class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Subir</button>

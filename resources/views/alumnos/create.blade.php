@@ -10,65 +10,54 @@
     <form action="{{ route('alumnos.store') }}" class="x mx-auto" class="w-full max-w-lg" method="POST">
 
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
             <label for="floating_company"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Matrícula</label>
+                class="block mb-2.5 text-sm font-medium text-heading">Matrícula</label>
+            <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}"
+                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Matricula"/>
                 @error('matricula')
                 <p>{{$message}}</p>
                 @enderror
         </div>
 
         <div class="relative z-0 w-full mb-5 group">
-            <input type="password" name="contrasena" id="contrasena" value="{{old('contrasena')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
-            <label for="alum_password"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Contrasena</label>
-        </div>
-
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="correo" id="correo" value="{{old('correo')}}"
-                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                placeholder=" "/>
-            <label for="alum_email"
-                class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Correo
-                Institucional</label>
-                @error('correo')
-                <p>{{$message}}</p>
-                @enderror
+            <label for="curp"
+                class="block mb-2.5 text-sm font-medium text-heading">
+                CURP</label>
+            <input type="text" name="curp" id="curp" value="{{old('curp')}}"
+                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="CURP"/>
+            
         </div>
 
         <div class="grid md:grid-cols-3 md:gap-6">
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="alum_nombre"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Nombre</label>
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Nombre</label>
+                <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Nombre"
+                    placeholder=" "/>
                 @error('nombre')
                 <p>{{$message}}</p>
                 @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="apell_paterno" id="alum_paterno" value="{{old('apell_paterno')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="alum_paterno"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Apellido
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Apellido
                     Paterno</label>
+                <input type="text" name="apell_paterno" id="alum_paterno" value="{{old('apell_paterno')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido paterno"/>
                 @error('apell_paterno')
                 <p>{{$message}}</p>
                 @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="apell_materno" id="apell_paterno" value="{{old('apell_materno')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="apell_materno"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Apellido
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Apellido
                     Materno</label>
+                <input type="text" name="apell_materno" id="apell_paterno" value="{{old('apell_materno')}}"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido materno"/>
                 @error('apell_materno')
                 <p>{{$message}}</p>
                 @enderror
@@ -77,11 +66,12 @@
 
         <div class="grid md:grid-cols-3 md:gap-6">
             <div class="relative z-0 w-full mb-5 group">
-                <input type="number" name="semestre" id="semestre" value="{{old('semestre')}}"
-                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                    placeholder=" "/>
                 <label for="semestre"
-                    class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Semestre</label>
+                    class="block mb-2.5 text-sm font-medium text-heading">
+                    Semestre</label>
+                <input type="number" name="semestre" id="semestre" value="{{old('semestre')}}" min="1" max="20"
+                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                    placeholder="Semestre"/>
                 @error('semestre')
                 <p>{{$message}}</p>
                 @enderror

@@ -28,29 +28,45 @@ class AuthController extends Controller
             'matricula.required' => 'La matrícula es requerida',
             'contrasena.required' => 'La contraseña es requerida',
         ]);
+
+        $input = $request->matricula;
         
         // Buscar el usuario en la tabla Auth
-        $auth = AuthModel::where('tipo', 'Admin')->first();
+        $auth = AuthModel::where('id_admin', $input)
+        ->orWhere('num_empleado', $input)
+        ->orWhere('matricula', $input)
+        ->first();
+
+        //dd($auth->tipo);
         
-        // Verificar si existe el admin
+        // Verificar si existe algún usuario
         if (!$auth) {
-            return back()->withErrors(['error' => 'No tiene acceso a esto.'])->withInput();
+            return back()->withErrors(['error' => 'Matrícula incorrecta.'])->withInput();
         }
         
-        // Verificar si la matrícula coincide con id_admin
-        if ($auth->id_admin !== $request->matricula) {
-            return back()->withErrors(['error' => 'Matrícula incorrecta'])->withInput();
-        }
-        
-        // Verificar la contraseña (sin hash por ahora, comparación directa)
+        // Verificar la contraseña (sin hash por ahora)
         if ($auth->contrasena !== $request->contrasena) {
             return back()->withErrors(['error' => 'Contraseña incorrecta'])->withInput();
         }
+
+        //Guardamos en el arreglo session el tipo de usuario que tenmos
+        session([
+            'user_tipo' => $auth->tipo,
+            'user_id' => $input,
+        ]);
         
-        // Login exitoso
-        session(['admin_id' => $auth->id_admin, 'admin' => true]);
+        // Checamos el login
+        if($auth->tipo === 'Admin'){
+            session(['admin_id' => $auth->id_admin, 'admin'=>true]);
+            return redirect('/home')->with('success', 'Bienvenido');
+        }elseif($auth->tipo === 'Alumno'){
+            session(['alumno_id' => $auth->matricula, 'alumno' =>true]);
+            return redirect('/alumno')->with('success', 'Hola Alumno');
+        }elseif($auth->tipo === 'Profesor'){
+            session(['num_empleado' => $auth->num_empleado, 'profesor'=> true]);
+            return redirect('/profesor')->with('success','Hola, Profesor');
+        }
         
-        return redirect('/home')->with('success', 'Bienvenido');
     }
     
     /**
@@ -58,7 +74,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        session()->forget(['admin_id', 'admin']);
+        session()->flush();
         return redirect('/');
     }
 }

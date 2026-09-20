@@ -3,6 +3,6 @@
 @section('title', 'Inicio')
 
 @section('content')
-Buen día Administrador.
+Buen día
 @endsection
-
+    
