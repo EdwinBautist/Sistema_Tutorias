@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 use App\Models\Alumno as Alumno;
 use App\Models\Auth as Auth;
+
+//Librerías para poder normalizar y aplanar el texto.
 use Dotenv\Util\Regex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
+// Librerías para poder usar Laravel Excel
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
+use App\Imports\AlumnoImport;
+use GrahamCampbell\ResultType\Success;
 
 class AlumnoController extends Controller
 {
@@ -82,7 +90,9 @@ class AlumnoController extends Controller
 
         $auth->save();
 
-        return view('alumnos.create');
+        return redirect()
+        ->route('alumnos.create')
+        ->with('success', 'Alumnos registrados correctamente');
     }
 
     /**
@@ -92,8 +102,21 @@ class AlumnoController extends Controller
     {
         //
     }
-    public function importarprof(){
-        
+
+    public function import(Request $request){
+        //Vamos a validar que si hayamos recibido un archivo excel o csv
+        $request->validate([
+        'alumimport' => ['required', 'file', 'mimes:xlsx,xls,csv'],
+        ]);
+
+        $import = new AlumnoImport;
+
+        //Usaremos este try catch para evaluar si este archivo está corrupto, vacío o ilegible
+        try{
+        Excel::import($import, $request->file('alumimport'));
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
     }
 
     /**

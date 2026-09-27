@@ -4,29 +4,24 @@ namespace App\Imports;
 
 use App\Models\Alumno;
 use Illuminate\Database\Eloquent\Model;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\WithSkipDuplicates;
-use Override;
+use Maatwebsite\Excel\Concerns\WithHeadingRow; //Esta librería nos ayuda a manejar el archivo si es que tiene una cabecera con los nombres de los campos
+use Maatwebsite\Excel\Concerns\WithValidation; //Vamos a implementar ciertas reglas para no insertar el archivo en crudo
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Validators\Failure;
+use Throwable;
 
-class AlumnoImport implements ToModel, WithHeadingRow, WithValidation, WithSkipDuplicates
+class AlumnoImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnError, SkipsOnFailure
 {
-    public function model(array $row): Model|null
-    {
-        return new Alumno([
-            //
-            'matricula' => $row['Matricula'],
-            'curp' => $row['CURP'],
-            'nombre' => $row['Nombre'],
-            'apell_paterno' => $row['Apellido Paterno'],
-            'apell_materno' => $row['Apellido Materno'],
-            'semestre' => $row['Semestre'],
-            'carrera' => $row['Carrera'],
-            'estatus' => $row['Estatus'] 
-        ]);
-    }
+    use Importable, SkipsFailures, SkipsErrors;
 
+    public function prepareForValidation($data, $index){
+        return $data;
+    }
     
     public function rules(): array
     {
@@ -49,4 +44,28 @@ class AlumnoImport implements ToModel, WithHeadingRow, WithValidation, WithSkipD
 
         ];
     }
+
+    public function model(array $row): Model|null
+    {
+        return new Alumno([
+            //
+            'matricula' => $row['matricula'],
+            'curp' => $row['curp'],
+            'nombre' => $row['Nombre'],
+            'apell_paterno' => $row['Apellido paterno'],
+            'apell_materno' => $row['Apellido materno'],
+            'semestre' => $row['Semestre'],
+            'carrera' => $row['Carrera'],
+            'estatus' => $row['Estatus'] 
+        ]);
+    }
+
+    public function batchSize():int{
+        return 100;
+    }
+
+    public function chunkSize():int{
+        return 10;
+    }
+
 }

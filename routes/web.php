@@ -13,5 +13,7 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::post('/alumnos/import', [AlumnoController::class, 'import'])->name('alumnos.import');
 Route::resource('alumnos', AlumnoController::class);
 Route::resource('profesores', ProfesorController::class);
+
