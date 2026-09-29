@@ -104,50 +104,82 @@
     <h2>SELECCIONE UN ARCHIVO EXCEL</h2>
 
     <!-- Este body card nos va a ayudar a mostrar en una tabla todos los errores que vayamos a ir recolectando al leer el archivo -->
-    <div class="card-body">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>            
-        @endif
-
-        @if (isset($erros) && $errors->any)
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                {{ $error }}
-            @endforeach
+<div class="card-body">
+    <!-- Mensaje de Éxito -->
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
         </div>            
-        @endif
+    @endif
 
-        @if (session()->has('failures'))
-        <table class="table table-danger">
-            <tr>
-                <th>Row</th>
-                <th>Attribute</th>
-                <th>Errors</th>
-                <th>Value</th>
-            </tr>
+    <!-- Mensaje de Advertencia General -->
+    @if (session('warning'))
+        <div class="alert alert-warning" role="alert">
+            {{ session('warning') }}
+        </div>            
+    @endif
 
-            @foreach (session()->get('failures') as $validation)
-            <tr>
-                <td>{{ $validation->row() }}</td>
-                <td>{{ $validation->attribute() }} </td>
-                <td>
-                    <ul>
-                        @foreach ($validation->errors() as $e )
-                            <li>{{$e}}</li>
-                        @endforeach
-                    </ul>
-                </td>
-                <td>
-                    {{ $validation->values()[$validation->attribute()] }}
-                </td>
-            </tr>
-                
-            @endforeach
-        </table>
-        @endif
-    </div>
+    <!-- Errores de Validación Básicos (Formulario) -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>            
+    @endif
+
+    <!-- Errores Específicos por Fila del Excel -->
+    @if (session()->has('failures'))
+        <div class="table-responsive my-3">
+            <table class="table table-danger table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Fila Excel</th>
+                        <th>Columna</th>
+                        <th>Errores Encontrados</th>
+                        <th>Valor Enviado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (session()->get('failures') as $validation)
+    <tr>
+        {{-- Soporta tanto sintaxis de Objeto como de Array --}}
+        <td>{{ is_array($validation) ? ($validation['row'] ?? 'N/A') : $validation->row() }}</td>
+        <td>
+            <code>{{ is_array($validation) ? ($validation['attribute'] ?? '') : $validation->attribute() }}</code>
+        </td>
+        <td>
+            <ul class="mb-0">
+                @php
+                    $eList = is_array($validation) 
+                        ? ($validation['errors'] ?? []) 
+                        : $validation->errors();
+                @endphp
+                @foreach ($eList as $e)
+                    <li>{{ $e }}</li>
+                @endforeach
+            </ul>
+        </td>
+        <td>
+            @php
+                $values = is_array($validation) 
+                    ? ($validation['values'] ?? []) 
+                    : $validation->values();
+                $attr = is_array($validation) 
+                    ? ($validation['attribute'] ?? '') 
+                    : $validation->attribute();
+            @endphp
+            {{ $values[$attr] ?? 'N/A / Vacío' }}
+        </td>
+    </tr>
+@endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+</div>
     
     <!-- Este formulario es el que tiene la tarea de recibir el archivo excel -->
     <form class="max-w-lg mx-auto" method="POST" action="{{ route('alumnos.import') }}" enctype="multipart/form-data">

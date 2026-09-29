@@ -3,69 +3,98 @@
 namespace App\Imports;
 
 use App\Models\Alumno;
+use App\Models\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow; //Esta librería nos ayuda a manejar el archivo si es que tiene una cabecera con los nombres de los campos
-use Maatwebsite\Excel\Concerns\WithValidation; //Vamos a implementar ciertas reglas para no insertar el archivo en crudo
-use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Validators\Failure;
-use Throwable;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 class AlumnoImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnError, SkipsOnFailure
 {
     use Importable, SkipsFailures, SkipsErrors;
 
-    public function prepareForValidation($data, $index){
-        return $data;
+    public int $imported = 0;
+
+    public function prepareForValidation($data, $index)
+{
+    // Normalizamos la búsqueda de las claves por si varían en el Excel
+    $paterno = $data['apelllido_paterno'] ?? $data['apell_paterno'] ?? $data['apellido_pater'] ?? null;
+    $materno = $data['apellido_materno'] ?? $data['apell_materno'] ?? $data['apellido_mater'] ?? null;
+
+    if (isset($data['matricula'])) {
+        $data['matricula'] = strtolower(trim($data['matricula']));
     }
+
+    if (isset($data['curp'])) {
+        $data['curp'] = strtoupper(trim($data['curp']));
+    }   
+
+    if (isset($data['nombre'])) {
+        $data['nombre'] = Str::transliterate(trim($data['nombre']));
+    }
+
+    if (!is_null($paterno)) {
+        $data['apellido_paterno'] = Str::transliterate(trim($paterno));
+    }
+
+    if (!is_null($materno)) {
+        $data['apellido_materno'] = Str::transliterate(trim($materno));
+    }
+
+    return $data;
+}
     
     public function rules(): array
     {
-        return[
-            'matricula' => ['required', 'size:8', 'unique:Alumno', 'lowercase'],
-            //input: text
-            'curp' => ['required', 'size:18', 'unique:Alumno', 'regex:/^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/'],
-            //input: text
-            'nombre' => ['required', 'string'],
-            //input: text
-            'apell_paterno' => ['required', 'string'],
-            //input: text
-            'apell_materno' => ['required', 'string'],
-            //input: 
-            'semestre' => ['required','integer', 'min:1', 'max:20'],
-            //input text
-            'carrera' => ['required'],
-            //input 
-            'estatus' => ['required']
-
+        return [
+            // Removida la regla 'lowercase' ya que se normaliza previamente en prepareForValidation
+            'matricula'    => ['required', 'size:8', 'unique:Alumno,matricula'],
+            'curp'         => ['required', 'size:18', 'unique:Alumno,curp', 'regex:/^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/'],
+            'nombre'       => ['required', 'string'],
+            'apellido_paterno'=> ['required', 'string'],
+            'apellido_materno'=> ['required','string'],
+            'semestre'     => ['required', 'integer', 'min:1', 'max:20'],
+            'carrera'      => ['required'],
+            'estatus'      => ['required'],
         ];
     }
 
-    public function model(array $row): Model|null
+    public function model(array $row): ?Model
     {
-        return new Alumno([
-            //
-            'matricula' => $row['matricula'],
-            'curp' => $row['curp'],
-            'nombre' => $row['Nombre'],
-            'apell_paterno' => $row['Apellido paterno'],
-            'apell_materno' => $row['Apellido materno'],
-            'semestre' => $row['Semestre'],
-            'carrera' => $row['Carrera'],
-            'estatus' => $row['Estatus'] 
-        ]);
-    }
+        DB::transaction(function () use ($row) {
+            // Aseguramos la transformación del texto antes de insertar
+            $matricula = strtolower(trim($row['matricula']));
+            $curp = strtoupper(trim($row['curp']));
 
-    public function batchSize():int{
-        return 100;
-    }
+            Alumno::create([
+                'matricula'     => $matricula,
+                'correo'        => $matricula . '@umich.mx',
+                'curp'          => $curp,
+                'nombre'        => Str::transliterate(trim($row['nombre'])),
+                'apell_paterno' => Str::transliterate(trim($row['apellido_paterno'])),
+                'apell_materno' => Str::transliterate(trim($row['apellido_materno'])),
+                'semestre'      => $row['semestre'],
+                'carrera'       => $row['carrera'],
+                'estatus'       => $row['estatus'],
+                'token_qr'      => $matricula,
+            ]);
 
-    public function chunkSize():int{
-        return 10;
-    }
+            Auth::create([
+                'tipo'       => 'Alumno',
+                'matricula'  => $matricula,
+                'contrasena' => $curp,
+            ]);
+        });
 
+        $this->imported++;
+
+        return null;
+    }
 }

@@ -103,7 +103,7 @@ class AlumnoController extends Controller
         //
     }
 
-    public function import(Request $request){
+    /*public function import(Request $request){
         //Vamos a validar que si hayamos recibido un archivo excel o csv
         $request->validate([
         'alumimport' => ['required', 'file', 'mimes:xlsx,xls,csv'],
@@ -117,7 +117,41 @@ class AlumnoController extends Controller
         }catch(\Exception $e){
             dd($e->getMessage());
         }
+    }*/
+    
+    public function import(Request $request)
+    {
+    // Validamos el archivo enviado
+    $request->validate([
+        'alumimport' => ['required', 'file', 'mimes:xlsx,xls,csv'],
+    ]);
+
+    $import = new AlumnoImport;
+
+    try {
+        Excel::import($import, $request->file('alumimport'));
+    } catch (\Exception $e) {
+        // En caso de error de lectura, formato o base de datos
+        return back()->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
     }
+
+    // Check para saber si hubo errores omitidos por SkipsFailures / SkipsErrors
+    $failures = $import->failures();
+    $errors   = $import->errors();
+
+    if ($failures->isNotEmpty() || $errors->isNotEmpty()) {
+        return redirect()
+            ->route('alumnos.create')
+            ->with('failures', $failures)
+            ->with('errors_import', $errors)
+            ->with('warning', "Se importaron {$import->imported} registros, pero algunos filas presentaron errores.");
+    }
+
+    // Redirección exitosa
+    return redirect()
+        ->route('alumnos.create')
+        ->with('success', "Se importaron correctamente {$import->imported} alumnos.");
+}
 
     /**
      * Show the form for editing the specified resource.
