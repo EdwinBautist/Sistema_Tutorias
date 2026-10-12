@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AlumnoImport;
 use App\Models\Profesor as Profesor;
 use App\Models\Auth as Auth;
+
 use Dotenv\Util\Regex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class ProfesorController extends Controller
 {
@@ -15,12 +20,12 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        return view('profesores.show');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        $profesores = Profesor::paginate(10);
+        return view('profesores.index', compact('profesores'));
+
+    }    
+    
     public function create()
     {
         return view('profesores.create');
@@ -62,7 +67,32 @@ class ProfesorController extends Controller
     }
 
     public function import(Request $request){
+        $request -> validate([
+            'profimport' => ['required', 'file', 'mimes:xlsx, xls, csv']
+        ]);
 
+        $import = new AlumnoImport;
+
+        try{
+            Excel::import($import, $request->file('profimport'));
+        }catch(\Exception $e){
+            return back()->with('error', 'Error al procesar el archivo: '. $e->getMessage());
+        }
+
+        $failures = $import->failures();
+        $errors = $import->errors();
+
+        if($failures->isEmpty() || $errors->isNotEmpty()){
+            return redirect()
+            ->route('alumnos.create')
+            ->with('failures', $failures)
+            ->with('errors_import', $errors)
+            ->with('warning', "{$import->imported} registros exitosos, pero algunoas filas presentaron errores.");
+        }
+
+        return redirect()
+            ->route('alumnos.create')
+            ->with('success', "{$import->imported} registros exitosos.");
     }
 
     public function show(string $id)
@@ -75,7 +105,7 @@ class ProfesorController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('profesores.edit');
     }
 
     /**

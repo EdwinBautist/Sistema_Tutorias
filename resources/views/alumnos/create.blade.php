@@ -14,7 +14,7 @@
                 class="block mb-2.5 text-sm font-medium text-heading">Matrícula</label>
             <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}"
                 class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Matricula"/>
-                @error('matricula')
+                @error('matricula', 'individualform')
                 <p>{{$message}}</p>
                 @enderror
         </div>
@@ -25,7 +25,9 @@
                 CURP</label>
             <input type="text" name="curp" id="curp" value="{{old('curp')}}"
                 class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="CURP"/>
-            
+                @error('curp', 'individualform')
+                <p>{{$message}}</p>
+                @enderror
         </div>
 
         <div class="grid md:grid-cols-3 md:gap-6">
@@ -36,7 +38,7 @@
                 <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}"
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Nombre"
                     placeholder=" "/>
-                @error('nombre')
+                @error('nombre','individualform')
                 <p>{{$message}}</p>
                 @enderror
             </div>
@@ -47,7 +49,7 @@
                     Paterno</label>
                 <input type="text" name="apell_paterno" id="alum_paterno" value="{{old('apell_paterno')}}"
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido paterno"/>
-                @error('apell_paterno')
+                @error('apell_paterno','individualform')
                 <p>{{$message}}</p>
                 @enderror
             </div>
@@ -58,7 +60,7 @@
                     Materno</label>
                 <input type="text" name="apell_materno" id="apell_paterno" value="{{old('apell_materno')}}"
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body" placeholder="Apellido materno"/>
-                @error('apell_materno')
+                @error('apell_materno', 'individualform')
                 <p>{{$message}}</p>
                 @enderror
             </div>
@@ -72,7 +74,7 @@
                 <input type="number" name="semestre" id="semestre" value="{{old('semestre')}}" min="1" max="20"
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                     placeholder="Semestre"/>
-                @error('semestre')
+                @error('semestre', 'individualform')
                 <p>{{$message}}</p>
                 @enderror
             </div>

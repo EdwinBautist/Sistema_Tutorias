@@ -107,7 +107,7 @@
         <div class="relative z-0 w-full mb-5 group">
         <input
             class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
-            id="file_input" type="file" accept=".csv" name="archivo">
+            id="file_input" type="file" accept=".csv" name="profimport">
         </div>
         <button type="submit"
             class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Subir</button>

@@ -11,38 +11,32 @@ use Illuminate\Support\Str;
 
 // Librerías para poder usar Laravel Excel
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Validators\ValidationException;
 use App\Imports\AlumnoImport;
-use GrahamCampbell\ResultType\Success;
 
 class AlumnoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index() //Función que hace una consulta para guardar el resultado y posteriormente listar a los alumnos 
     {
-        //
+        $alumnos = Alumno::paginate(10);
+        return view('alumnos.index', compact('alumnos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create() //Función que devuelve la vista crear, aquella que contiene el formulario para registrar un alumno
     {
         return view('alumnos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request) //Función para almacenar(store) los alumnos que se vayan registrando uno a uno
     {
+        $request->merge([
+            'matricula' => Str::lower($request->input('matricula')),
+        ]);
+
         $request->merge([
             'curp' => Str::upper($request->input('curp')),
         ]);
 
-        $alumnovalidate = $request->validate([
+        $alumnovalidate = $request->validateWithBag('individualform', [
             //input: text
             'matricula' => ['required', 'size:8', 'unique:Alumno', 'lowercase'],
             //input: text
@@ -102,22 +96,6 @@ class AlumnoController extends Controller
     {
         //
     }
-
-    /*public function import(Request $request){
-        //Vamos a validar que si hayamos recibido un archivo excel o csv
-        $request->validate([
-        'alumimport' => ['required', 'file', 'mimes:xlsx,xls,csv'],
-        ]);
-
-        $import = new AlumnoImport;
-
-        //Usaremos este try catch para evaluar si este archivo está corrupto, vacío o ilegible
-        try{
-        Excel::import($import, $request->file('alumimport'));
-        }catch(\Exception $e){
-            dd($e->getMessage());
-        }
-    }*/
     
     public function import(Request $request)
     {
@@ -139,18 +117,20 @@ class AlumnoController extends Controller
     $failures = $import->failures();
     $errors   = $import->errors();
 
+    //$total = $failures + $errors; 
+
     if ($failures->isNotEmpty() || $errors->isNotEmpty()) {
         return redirect()
             ->route('alumnos.create')
             ->with('failures', $failures)
             ->with('errors_import', $errors)
-            ->with('warning', "Se importaron {$import->imported} registros, pero algunos filas presentaron errores.");
+            ->with('warning', "{$import->imported} registros exitosos, pero algunos filas presentaron errores.");
     }
 
     // Redirección exitosa
     return redirect()
         ->route('alumnos.create')
-        ->with('success', "Se importaron correctamente {$import->imported} alumnos.");
+        ->with('success',  "{$import->imported} registros exitosos.");
 }
 
     /**
@@ -158,7 +138,7 @@ class AlumnoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('alumnos.edit');
     }
 
     /**
@@ -166,7 +146,7 @@ class AlumnoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**

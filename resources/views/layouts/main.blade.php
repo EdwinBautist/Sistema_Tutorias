@@ -35,7 +35,7 @@
 
 
 
-                <x-sidebar href="#" data-target="alumnos">
+                <x-sidebar href="{{ route('alumnos.index') }}" data-target="alumnos">
                     <x-slot:icon>
                         <svg class="w-12 h-12 text-white dark:text" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
                     Alumnos
                 </x-sidebar>
 
-                <x-sidebar href="#" data-target="profesor">
+                <x-sidebar href="{{ route('profesores.index') }}" data-target="profesor">
                     <x-slot:icon>
                         <svg class="w-12 h-12 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -100,7 +100,7 @@
         <x-sidebar_asesoria data-panel="asesoria"    class="hidden" />
         <x-sidebar_tutoria data-panel="tutoria"    class="hidden" />
            
-        <div class="p-4 border-1 border-default border-dashed rounded-base">
+        <div class="p-1 border-1 border-default border-dashed rounded-base">
             <!-- Aquí puedes empezar a borrar las cajas grises y meter tu información -->
             <div class="grid grid-cols-1 gap-4 mb-4" justify-center items-center>
                 <div class="flex items-center justify-center h-24 rounded-base bg-neutral-secondary-soft">

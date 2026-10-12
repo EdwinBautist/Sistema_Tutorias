@@ -9,9 +9,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
+
 <body class="flex flex-col min-h-screen">
 
 <div class="flex-1 flex items-center justify-center">
+
 <div class="w-full max-w-sm">
     
     <img src="{{asset('img/FIE Escudo Azul Eléctrico.png') }}" alt="Escudo FIE">

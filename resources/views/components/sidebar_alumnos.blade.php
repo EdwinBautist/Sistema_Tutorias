@@ -6,7 +6,7 @@
                         ALUMNOS
                     </li>
 
-                    <x-suboption href="/alumnos/create">
+                    <x-suboption href="/alumnos/index">
                         <x-slot:icon>
                             <svg class="w-10 h-10 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                         Buscar Alumno
                     </x-suboption>
 
-                    <x-suboption href="/alumnos/create">
+                    <x-suboption href="{{  route('alumnos.create') }}">
                         <x-slot:icon>
                             <svg class="w-10 h-10 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">

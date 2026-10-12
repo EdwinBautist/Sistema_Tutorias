@@ -14,6 +14,7 @@ Route::get('/home', function () {
 });
 
 Route::post('/alumnos/import', [AlumnoController::class, 'import'])->name('alumnos.import');
+Route::post('/profesores/import', [ProfesorController::class, 'import'])->name('profesores.import');
 Route::resource('alumnos', AlumnoController::class);
 Route::resource('profesores', ProfesorController::class);
 
