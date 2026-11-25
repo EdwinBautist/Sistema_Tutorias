@@ -98,7 +98,7 @@
         <x-sidebar_alumnos data-panel="alumnos"    class="hidden"/>
         <x-sidebar_profesor data-panel="profesor"    class="hidden" />
         <x-sidebar_asesoria data-panel="asesoria"    class="hidden" />
-        <x-sidebar_tutoria data-panel="tutoria"    class="hidden" />
+        <x-sidebar_tutoria data-panel="tutoria"    class="hidden" />    
            
         <div class="p-1 border-1 border-default border-dashed rounded-base">
             <!-- Aquí puedes empezar a borrar las cajas grises y meter tu información -->

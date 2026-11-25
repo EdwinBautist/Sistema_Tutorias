@@ -1,24 +1,18 @@
-var modal = document.getElementById("myModal");
+const modalIndividual = document.getElementById('modal-individual');
+const modalExcel = document.getElementById('modal-excel');
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+document.getElementById('btn-open-individual')?.addEventListener('click', () => {
+    modalIndividual?.classList.remove('hidden');
+});
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+document.getElementById('btn-open-excel')?.addEventListener('click', () => {
+    modalExcel?.classList.remove('hidden');
+});
 
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+// Botones de cerrar (✕)
+document.querySelectorAll('.btn-close-modal').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modalId = btn.dataset.modal;
+        document.getElementById(modalId)?.classList.add('hidden');
+    });
+});

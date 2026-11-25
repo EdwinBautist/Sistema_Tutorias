@@ -30,19 +30,34 @@
                                           text-sm 
                                           rounded-lg 
                                           block w-full pl-10 p-2 "
-                                    placeholder="Buscar" required>
+                                    placeholder="Buscar por nombre, matrícula o correo">
                             </div>
                         </form>
                     </div>
-                    <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button"
-                        class="flex items-center justify-center text-black hover:underline bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                        <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
-                        </svg>
-                        Agregar Alumno
-                    </button>
+
+                    <div class="flex space-x-2">
+                        <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button"
+                            id="btn-open-individual"
+                            class="flex items-center justify-center text-black hover:underline bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                            </svg>
+                            Agregar Alumno
+                        </button>
+
+                        <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button"
+                            id="btn-open-excel"
+                            class="flex items-center justify-left text-black hover:underline bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                            </svg>
+                            Subir Excel
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tabla -->
@@ -60,23 +75,33 @@
                                 <th scope="col" class="px-4 py-3"><span class="sr-only">Acciones</span></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($alumnos as $alumno)
-                                <tr class="border-b dark:border-gray-700">
-                                    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $alumno->matricula }}</th>
-                                    <td class="px-4 py-3">{{ $alumno->nombre }}</td>
-                                    <td class="px-4 py-3">{{ $alumno->apell_paterno . ' ' . $alumno->apell_materno }}</td>
-                                    <td class="px-4 py-3">{{ $alumno->correo }}</td>
-                                    <td class="px-4 py-3">{{ $alumno->semestre }}</td>
-                                    <td class="px-4 py-3">{{ $alumno->carrera }}</td>
-                                    <td class="px-4 py-3">{{ $alumno->estatus }}</td>
-                                    <td class="px-4 py-3 flex items-center justify-end space-x-3">
-                                        <a href="#" class="font-medium text-primary-600 hover:underline">Editar</a>
-                                        <a href="#" class="font-medium text-red-600 hover:underline">Eliminar</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                        <tbody id="table-body">
+                            @fragment('tabla-alumnos')
+                                @forelse($alumnos as $alumno)
+                                    <tr class="border-b dark:border-gray-700" id="alumno-{{ $alumno->matricula }}">
+                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                            {{ $alumno->matricula }}</th>
+                                        <td class="px-4 py-3">{{ $alumno->nombre }}</td>
+                                        <td class="px-4 py-3">{{ $alumno->apell_paterno . ' ' . $alumno->apell_materno }}</td>
+                                        <td class="px-4 py-3">{{ $alumno->correo }}</td>
+                                        <td class="px-4 py-3">{{ $alumno->semestre }}</td>
+                                        <td class="px-4 py-3">{{ $alumno->carrera }}</td>
+                                        <td class="px-4 py-3">{{ $alumno->estatus }}</td>
+                                        <td class="px-4 py-3 flex items-center justify-end space-x-3">
+                                            <button type="button" data-id="{{ $alumno->matricula }}"
+                                                class="btn-editar-alumno font-medium text-primary-600 hover:underline">Editar</button>
+                                            <button type="button" data-id="{{ $alumno->matricula }}"
+                                                class="btn-eliminar font-medium text-red-600 hover:underline">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="text-center py-4 text-gray-500">
+                                            No se encontraron alumnos registrados.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            @endfragment
 
                         </tbody>
                     </table>
@@ -91,40 +116,84 @@
     </div>
 @endsection
 
-<!-- Main modal -->
-<div id="default-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
-                <h3 class="text-lg font-medium text-heading">
-                    AGREGAR ALUMNO
-                </h3>
-                <button type="button"
-                    class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
-                    data-modal-hide="default-modal">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18 17.94 6M18 18 6.06 6" />
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="space-y-8 md:space-y-6 py-4 md:py-6">
-                
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center border-t border-default space-x-4 pt-4 md:pt-5">
-                <button data-modal-hide="default-modal" type="button"
-                    class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
-                    SUBIR</button>
-                <button data-modal-hide="default-modal" type="button"
-                    class="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">CANCELAR</button>
-            </div>
+<div id="modal-individual" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex justify-center items-center p-4">
+    <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+        <div class="flex items-center justify-between border-b pb-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">REGISTRAR ALUMNO</h3>
+            <button type="button" class="btn-close-modal text-gray-400 hover:text-gray-900" data-modal="modal-individual">✕</button>
         </div>
+        
+        @include('alumnos.individualform')
     </div>
 </div>
+
+<div id="modal-editar-alumno" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex justify-center items-center p-4">
+    <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+        <div class="flex items-center justify-between border-b pb-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">EDITAR ALUMNO</h3>
+            <button type="button" class="btn-close-modal text-gray-400 hover:text-gray-900" data-modal="modal-editar-alumno" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form id="form-editar-alumno" action="#" method="POST" class="mx-auto w-full max-w-lg">
+            @csrf
+            @method('PUT')
+            <div class="mb-4">
+                <label for="edit-matricula" class="mb-2 block text-sm font-medium">Matrícula</label>
+                <input id="edit-matricula" name="matricula" type="text" readonly class="block w-full rounded-base border border-default-medium bg-gray-100 px-3 py-2.5 text-sm">
+            </div>
+            <div class="mb-4">
+                <label for="edit-curp" class="mb-2 block text-sm font-medium">CURP</label>
+                <input id="edit-curp" name="curp" type="text" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+            </div>
+            <div class="mb-4">
+                <label for="edit-nombre" class="mb-2 block text-sm font-medium">Nombre</label>
+                <input id="edit-nombre" name="nombre" type="text" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                <div class="mb-4">
+                    <label for="edit-apell-paterno" class="mb-2 block text-sm font-medium">Apellido paterno</label>
+                    <input id="edit-apell-paterno" name="apell_paterno" type="text" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="edit-apell-materno" class="mb-2 block text-sm font-medium">Apellido materno</label>
+                    <input id="edit-apell-materno" name="apell_materno" type="text" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+                </div>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+                <div class="mb-4">
+                    <label for="edit-semestre" class="mb-2 block text-sm font-medium">Semestre</label>
+                    <input id="edit-semestre" name="semestre" type="number" min="1" max="20" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="edit-carrera" class="mb-2 block text-sm font-medium">Carrera</label>
+                    <select id="edit-carrera" name="carrera" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+                        <option value="Eléctrica">Eléctrica</option>
+                        <option value="Electrónica">Electrónica</option>
+                        <option value="Computación">Computación</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="edit-estatus" class="mb-2 block text-sm font-medium">Estatus</label>
+                    <select id="edit-estatus" name="estatus" required class="block w-full rounded-base border border-default-medium px-3 py-2.5 text-sm">
+                        <option value="Inscrito">Inscrito</option>
+                        <option value="Articulo">Articulo</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="rounded-base bg-brand px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-strong">Guardar cambios</button>
+        </form>
+    </div>
+</div>
+
+<div id="modal-excel" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex justify-center items-center p-4">
+    <div class="relative bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[100vh] overflow-y-auto p-6">
+        <div class="flex items-center justify-between border-b pb-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">IMPORTAR DESDE EXCEL</h3>
+            <button type="button" class="btn-close-modal text-gray-400 hover:text-gray-900" data-modal="modal-excel">✕</button>
+        </div>
+        
+        @include('alumnos.excelform')
+    </div>
+</div>
+
+@vite(['resources/js/admin/alum.js'])

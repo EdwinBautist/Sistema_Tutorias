@@ -1,8 +1,3 @@
-@extends('layouts.main')
-
-@section('title', 'Alumnos')
-
-@section('content')
 <div align="center" class="w-200">
     <h2>INSERTAR ALUMNO</h2>
     <br>
@@ -197,5 +192,5 @@
     <br>
     </div>
 </div>
-@endsection
+
 
